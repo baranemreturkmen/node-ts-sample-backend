@@ -5,7 +5,10 @@ import cookieParser from "cookie-parser";
 import compression from "compression";
 import cors from "cors";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 import router from './router';
+
+dotenv.config();
 
 const app = express();
 
@@ -23,7 +26,7 @@ server.listen(8080, () => {
     console.log("Server is running on port http://localhost:8080");
 });
 
-const MONGO_URL = 'mongodb+srv://baranemre1997:yFdvkL007QnLrgsy@cluster0.gtjj2b8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+const MONGO_URL = process.env.MONGO_URL || '';
 
 mongoose.Promise = Promise;
 mongoose.connect(MONGO_URL);
