@@ -6,7 +6,21 @@ const UserSchema = new mongoose.Schema({
     authentication: {
         password: { type: String, required: true, select: false },
         salt: { type: String, select: false },
-        sessionToken: { type: String, select: false },//Db'ye yazmıyoruz ama session'larda kullanıyoruz.
+        sessionToken: { type: String, select: false }, // Db'ye yazmıyoruz ama session'larda kullanıyoruz.
+    },
+});
+
+UserSchema.set('toJSON', {
+    transform: (_doc, ret) => {
+        if (ret.authentication) {
+            delete ret.authentication.password;
+            delete ret.authentication.salt;
+            delete ret.authentication.sessionToken;
+            if (!Object.keys(ret.authentication).length) {
+                delete ret.authentication;
+            }
+        }
+        return ret;
     },
 });
 
