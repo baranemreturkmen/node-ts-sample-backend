@@ -5,8 +5,7 @@
         "baseUrl": "src",
         "outDir": "dist",
         "sourceMap": true,
-        "noImplicitAny": true,
-        "types": ["node", "jest"]
+        "noImplicitAny": true
     },
     "include": ["src/**/*"]
 }

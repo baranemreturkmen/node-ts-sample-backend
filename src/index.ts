@@ -42,16 +42,10 @@ if (HTTPS_KEY && HTTPS_CERT) {
     });
 }
 
-const MONGO_URL = process.env.MONGO_URL;
-if (!MONGO_URL) {
-    throw new Error("MONGO_URL is not defined");
-}
+const MONGO_URL = process.env.MONGO_URL || '';
 
 mongoose.Promise = Promise;
-mongoose.connect(MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+mongoose.connect(MONGO_URL);
 mongoose.connection.on("error", (error: Error) => {
     console.log("❌ MongoDB Connection Error:", error);
 });
