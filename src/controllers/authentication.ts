@@ -28,7 +28,16 @@ export const login = async (req: express.Request, res: express.Response) => {
 
         await user.save();//Burada save yapmak ne kadar mantıklı?
 
-        res.cookie("NODE-TS-AUTH", user.authentication.sessionToken, { domain: "localhost", path: "/" });
+        res.cookie(
+            "NODE-TS-AUTH",
+            user.authentication.sessionToken,
+            {
+                domain: "localhost",
+                path: "/",
+                httpOnly: true,
+                secure: req.secure,
+            }
+        );
         return res.status(200).json(toSafeUser(user)).end();
     } catch (error) {
         console.log(error);
