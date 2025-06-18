@@ -45,7 +45,7 @@ export const updateUser = async (req: express.Request, res: express.Response) =>
         if (!updatedUser) {
             return res.sendStatus(400);
         }
-        return res.json(toSafeUser(updatedUser)).end();
+        return res.json(toSafeUser(updatedUser));
     } catch (error) {
         console.log(error);
         return res.sendStatus(400);
