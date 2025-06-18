@@ -34,3 +34,7 @@ logs/
 
 # Coverage directory
 coverage/ 
+
+# Certificates
+certs/cert.pem
+certs/key.pem
