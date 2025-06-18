@@ -2,7 +2,7 @@ import { deleteUserById, getUserById, getUsers, updateUserById } from "../db/use
 import express from "express";
 import { toSafeUser } from "../helpers";
 
-export const getAllUsers: express.RequestHandler = async (req, res) => {
+export const getAllUsers = async (req: express.Request, res: express.Response) => {
     try {
         const users = await getUsers();
         const safeUsers = users.map((user) => toSafeUser(user));
@@ -13,7 +13,7 @@ export const getAllUsers: express.RequestHandler = async (req, res) => {
     }
 };
 
-export const deleteUser: express.RequestHandler = async (req, res) => {
+export const deleteUser = async (req: express.Request, res: express.Response) => {
     try {
         const { id } = req.params;
         const deletedUser = await deleteUserById(id);
@@ -27,7 +27,7 @@ export const deleteUser: express.RequestHandler = async (req, res) => {
     }
 };
 
-export const updateUser: express.RequestHandler = async (req, res) => {
+export const updateUser = async (req: express.Request, res: express.Response) => {
     try {
         const { id } = req.params;
         const { username } = req.body;
