@@ -2,7 +2,7 @@ import express from "express";
 import { getUserByEmail, createUser } from "../db/users";
 import { random, authentication, toSafeUser } from "../helpers";
 
-export const login = async (req: express.Request, res: express.Response) => {
+export const login: express.RequestHandler = async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -45,7 +45,7 @@ export const login = async (req: express.Request, res: express.Response) => {
     }
 };
 
-export const register = async (req: express.Request, res: express.Response) => {
+export const register: express.RequestHandler = async (req, res) => {
     try {
         const { email, password, username } = req.body;
         if (!email || !password || !username) {
