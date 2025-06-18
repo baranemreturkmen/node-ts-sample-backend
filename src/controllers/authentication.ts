@@ -27,7 +27,7 @@ export const login = async (req: express.Request, res: express.Response) => {
         user.authentication.sessionToken = authentication(salt, user._id.toString());
 
         await user.save();
-
+      
         const isSecure = req.secure || req.headers["x-forwarded-proto"] === "https";
         res.cookie("NODE-TS-AUTH", user.authentication.sessionToken, {
             domain: "localhost",
@@ -35,7 +35,8 @@ export const login = async (req: express.Request, res: express.Response) => {
             httpOnly: true,
             secure: isSecure,
         });
-        return res.status(200).json(toSafeUser(user)).end();
+        return res.status(200).json(toSafeUser(user));
+      
     } catch (error) {
         console.log(error);
         return res.sendStatus(400);
@@ -64,7 +65,7 @@ export const register = async (req: express.Request, res: express.Response) => {
                 password: authentication(salt, password)
             }
         });
-        return res.status(200).json(toSafeUser(user)).end();
+        return res.status(200).json(toSafeUser(user));
     } catch (error) {
         console.log(error);
         return res.sendStatus(400);
