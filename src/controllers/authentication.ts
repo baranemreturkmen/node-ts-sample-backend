@@ -26,19 +26,17 @@ export const login = async (req: express.Request, res: express.Response) => {
         const salt = random();
         user.authentication.sessionToken = authentication(salt, user._id.toString());
 
-        await user.save();//Burada save yapmak ne kadar mantıklı?
-
-        res.cookie(
-            "NODE-TS-AUTH",
-            user.authentication.sessionToken,
-            {
-                domain: "localhost",
-                path: "/",
-                httpOnly: true,
-                secure: req.secure,
-            }
-        );
+        await user.save();
+      
+        const isSecure = req.secure || req.headers["x-forwarded-proto"] === "https";
+        res.cookie("NODE-TS-AUTH", user.authentication.sessionToken, {
+            domain: "localhost",
+            path: "/",
+            httpOnly: true,
+            secure: isSecure,
+        });
         return res.status(200).json(toSafeUser(user));
+      
     } catch (error) {
         console.log(error);
         return res.sendStatus(400);
