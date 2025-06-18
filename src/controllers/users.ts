@@ -32,12 +32,19 @@ export const updateUser = async (req: express.Request, res: express.Response) =>
         const { id } = req.params;
         const { username } = req.body;
 
+        if (!username || typeof username !== "string") {
+            return res.sendStatus(400);
+        }
+
         const user = await getUserById(id);
         if (!user) {
             return res.sendStatus(400);
         }
 
         const updatedUser = await updateUserById(id, { username });
+        if (!updatedUser) {
+            return res.sendStatus(400);
+        }
         return res.json(toSafeUser(updatedUser)).end();
     } catch (error) {
         console.log(error);
