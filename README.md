@@ -8,7 +8,7 @@ The application expects the following variables to be available:
 - `MONGO_URL` – MongoDB connection string used by Mongoose
 - `SECRET` – secret key for generating password hashes
 
-Create a `.env` file in development with these values and run `npm start` to load them automatically.
+Create a `.env` file in development with these values and run `npm run dev` to load them automatically. For production builds, run `npm run build` followed by `npm start`.
 
 ```bash
 MONGO_URL=mongodb://localhost/mydb
