@@ -21,9 +21,6 @@ describe('Auth Middleware', () => {
     jest.clearAllMocks();
   });
 
-  // ------------------------------------------
-  // 🧪 isAuthenticated
-  // ------------------------------------------
   describe('isAuthenticated', () => {
     it('should call next if user is authenticated', async () => {
       const mockUser = { _id: '123', email: 'test@example.com' };
@@ -85,9 +82,6 @@ describe('Auth Middleware', () => {
     });
   });
 
-  // ------------------------------------------
-  // 🧪 isOwner
-  // ------------------------------------------
   describe('isOwner', () => {
     it('should call next if id matches current user', async () => {
       mockReq = {
