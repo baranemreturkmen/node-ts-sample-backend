@@ -26,9 +26,6 @@ describe('User Controller', () => {
     jest.clearAllMocks();
   });
 
-  // -------------------------------------
-  // 🧪 getAllUsers
-  // -------------------------------------
   describe('getAllUsers', () => {
     it('should return safe user list', async () => {
       const users = [{ _id: '1', username: 'a' }, { _id: '2', username: 'b' }];
@@ -49,9 +46,6 @@ describe('User Controller', () => {
     });
   });
 
-  // -------------------------------------
-  // 🧪 deleteUser
-  // -------------------------------------
   describe('deleteUser', () => {
     it('should return deleted user as safeUser', async () => {
       const deleted = { _id: '123', username: 'deletedUser' };
@@ -81,9 +75,6 @@ describe('User Controller', () => {
     });
   });
 
-  // -------------------------------------
-  // 🧪 updateUser
-  // -------------------------------------
   describe('updateUser', () => {
     it('should update and return safe user', async () => {
       const user = { _id: '1', username: 'old' };

@@ -43,8 +43,6 @@ describe('Auth Controller', () => {
 
   jest.spyOn(userDb, 'getUserByEmail').mockResolvedValue(null);
   jest.spyOn(helpers, 'random').mockReturnValue(salt);
-
-  // 🔧 BU KISIM EKSİKTİ – authentication mock!
   jest.spyOn(helpers, 'authentication').mockReturnValue(hashedPassword);
 
   jest.spyOn(userDb, 'createUser').mockResolvedValue({
