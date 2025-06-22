@@ -1,156 +1,156 @@
-# Node TS Örnek Backend
+# Node TS Sample Backend
 
-Bu proje Express.js ve TypeScript kullanılarak oluşturulmuş, MongoDB üzerinde çalışan basit bir kullanıcı yönetim servisidir. Amaç, kayıt ve giriş işlemleri barındıran örnek bir REST API sunmaktır. Proje hem geliştirme ortamında hem de Docker ile konteyner içinde çalıştırılabilir. 
+This project is a simple user management service built with Express.js and TypeScript that runs on MongoDB. It aims to provide a sample REST API containing registration and login functionality. The project can be run directly in a development environment or inside a Docker container.
 
-## Kullanılan Başlıca Paketler
+## Key Packages Used
 
-- **express** – HTTP sunucusu ve REST uç noktaları için.
-- **mongoose** – MongoDB üzerinde nesne modeli oluşturmak için.
-- **dotenv** – Ortam değişkenlerini `.env` dosyasından okumak için.
-- **body-parser** – Gelen isteklerdeki JSON verilerini ayrıştırmak için.
-- **cookie-parser** – Oturum bilgisini çerezlerde tutmak için.
-- **compression** – HTTP yanıtlarını sıkıştırmak için.
-- **cors** – Cross‑Origin Resource Sharing ayarları için.
-- **lodash** – Yardımcı fonksiyonlar ve orta katmanlarda veri işlemek için.
-- **nodemon** – Geliştirme sırasında dosya değişikliklerinde uygulamayı yeniden başlatmak için.
-- **ts-node** – TypeScript dosyalarını derlemeden çalıştırmak için.
-- **jest** ve **ts-jest** – Birim testlerimizi yazmak ve çalıştırmak için.
+- **express** – For the HTTP server and REST endpoints.
+- **mongoose** – To create an object model on MongoDB.
+- **dotenv** – Reads environment variables from a `.env` file.
+- **body-parser** – Parses JSON data from incoming requests.
+- **cookie-parser** – Stores session information in cookies.
+- **compression** – Compresses HTTP responses.
+- **cors** – Handles Cross‑Origin Resource Sharing settings.
+- **lodash** – Utility functions used in middlewares.
+- **nodemon** – Restarts the app on file changes during development.
+- **ts-node** – Runs TypeScript files without compiling them.
+- **jest** and **ts-jest** – Used for writing and running unit tests.
 
-Bu paketler kullanıcı yönetimi, güvenli kimlik doğrulama ve verimli geliştirme süreci sağlamak amacıyla tercih edildi.
+These packages were chosen to provide user management, secure authentication and an efficient development process.
 
-## Kurulum
+## Installation
 
-Projeyi klonladıktan sonra bağımlılıkları yükleyin:
+After cloning the repository, install the dependencies:
 
 ```bash
 npm install
 ```
 
-Uygulamanın çalışabilmesi için kök dizinde bir `.env` dosyası oluşturup aşağıdaki temel değişkenleri tanımlamalısınız:
+Create a `.env` file in the root directory with at least the following variables:
 
 ```bash
 MONGO_URL=mongodb://localhost/mydb
 SECRET=yourSecretKey
-PORT=3000                    # İsteğe bağlı, varsayılan 8080
-# HTTPS kullanmak isterseniz:
+PORT=3000                    # Optional, default 8080
+# If you want to use HTTPS:
 # HTTPS_KEY=./certs/key.pem
 # HTTPS_CERT=./certs/cert.pem
-# HTTPS_PORT=8443            # Varsayılan 8443
+# HTTPS_PORT=8443            # Default 8443
 ```
 
-## Çalıştırma
+## Running
 
-### Node ile
+### With Node
 
-Gerekli paketler yüklendikten sonra uygulamayı doğrudan başlatabilirsiniz:
+Once the packages are installed you can start the application directly:
 
 ```bash
-npm start      # nodemon ile geliştirme ortamı
-# veya
-npm run dev    # ts-node ile tek seferlik çalıştırma
+npm start      # development mode with nodemon
+# or
+npm run dev    # single run with ts-node
 ```
 
-### Docker ile
+### With Docker
 
-Projeyi konteyner içerisinde çalıştırmak için:
+Run the project inside a container:
 
 ```bash
 docker-compose up --build
 ```
 
-Docker kullanmak istemiyorsanız kendi imajınızı da oluşturabilirsiniz:
+If you prefer not to use docker-compose you can build your own image:
 
 ```bash
 docker build -t node-ts-backend .
 docker run -p 3000:3000 --env-file .env node-ts-backend
 ```
 
-## API Uç Noktaları
+## API Endpoints
 
-### Kayıt Olma
+### Register
 
 `POST /auth/register`
 
-Gönderilen JSON:
+Expected JSON:
 
 ```json
 {
   "email": "user@example.com",
-  "password": "şifre",
-  "username": "kullanici"
+  "password": "password",
+  "username": "user"
 }
 ```
 
-Örnek cURL:
+Example cURL:
 
 ```bash
 curl -X POST http://localhost:3000/auth/register \
   -H "Content-Type: application/json" \
-  -d '{"email":"user@example.com","password":"sifre","username":"kullanici"}'
+  -d '{"email":"user@example.com","password":"password","username":"user"}'
 ```
 
-### Giriş Yapma
+### Login
 
 `POST /auth/login`
 
-Gönderilen JSON:
+Expected JSON:
 
 ```json
 {
   "email": "user@example.com",
-  "password": "şifre"
+  "password": "password"
 }
 ```
 
-Başarılı olduğunda `NODE-TS-AUTH` isimli bir çerez ve kullanıcı bilgileri döner.
+When successful it returns a cookie called `NODE-TS-AUTH` and user information.
 
-Örnek cURL:
+Example cURL:
 
 ```bash
 curl -X POST http://localhost:3000/auth/login \
   -H "Content-Type: application/json" \
   -c cookies.txt \
-  -d '{"email":"user@example.com","password":"sifre"}'
+  -d '{"email":"user@example.com","password":"password"}'
 ```
 
-### Kullanıcıları Listeleme
+### List Users
 
 `GET /users`
 
-Oturum açmış kullanıcıya tüm kullanıcıları döner.
+Returns all users for the logged-in user.
 
 ```bash
 curl http://localhost:3000/users -b cookies.txt
 ```
 
-### Kullanıcı Güncelleme
+### Update User
 
 `PATCH /users/:id`
 
-Yalnızca oturum açan kendi kullanıcısını güncelleyebilir.
+Only the logged-in user can update their own account.
 
 ```bash
 curl -X PATCH http://localhost:3000/users/<USER_ID> \
   -H "Content-Type: application/json" \
   -b cookies.txt \
-  -d '{"username":"yeni-ad"}'
+  -d '{"username":"new-name"}'
 ```
 
-### Kullanıcı Silme
+### Delete User
 
 `DELETE /users/:id`
 
-Yalnızca oturum açan kendi kullanıcısını silebilir.
+Only the logged-in user can delete their own account.
 
 ```bash
 curl -X DELETE http://localhost:3000/users/<USER_ID> -b cookies.txt
 ```
 
-## HTTPS Desteği
+## HTTPS Support
 
-Uygulama opsiyonel olarak kendi sertifikanızla HTTPS portunda da servis verebilir. Bunun için `.env` dosyanıza `HTTPS_KEY` ve `HTTPS_CERT` değişkenlerini ekleyin. Her iki değişken tanımlandığında uygulama varsayılan olarak 8443 portundan HTTPS'i aktif eder.
+The application can optionally serve on an HTTPS port using your own certificate. Add `HTTPS_KEY` and `HTTPS_CERT` variables to your `.env` file. When both variables are present HTTPS is enabled on port 8443 by default.
 
-Sertifika oluşturmak için `openssl` kullanabilirsiniz:
+You can create a certificate using `openssl`:
 
 ```bash
 mkdir -p certs
@@ -160,11 +160,11 @@ openssl req -x509 -nodes -newkey rsa:2048 \
   -days 365
 ```
 
-Oluşturulan `certs/key.pem` ve `certs/cert.pem` dosyalarının yollarını `.env` dosyanızda ilgili değişkenlere yazmanız yeterlidir.
+Just reference the generated `certs/key.pem` and `certs/cert.pem` paths in your `.env` file.
 
-## Birim Testleri
+## Unit Tests
 
-Tüm birim testleri Jest ile yazılmıştır. Çalıştırmak için:
+All unit tests are written with Jest. Run them with:
 
 ```bash
 npm test
@@ -172,10 +172,9 @@ npm test
 
 ## TODO
 
-- Admin kullanıcı rolü eklenerek diğer kullanıcıları silebilme, güncelleme ve kilitleme (banlama) yetkisi verilecek.
-- Kilitli kullanıcıların giriş yapamaması sağlanacak.
-- Hata yönetimi ve loglama mekanizması iyileştirilebilir.
-- Üretim ortamı için daha detaylı güvenlik ayarları eklenebilir.
+- Add an admin role so that certain users can delete, update or ban others.
+- Prevent locked users from logging in.
+- Improve error handling and logging.
+- Provide more detailed security settings for production.
 
-Bu proje örnek amaçlıdır ve geliştirmeye açıktır.
-
+This project is for demonstration purposes and open to further development.
