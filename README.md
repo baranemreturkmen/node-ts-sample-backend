@@ -150,6 +150,25 @@ Only the logged-in user can delete their own account.
 curl -X DELETE http://localhost:3000/users/<USER_ID> -b cookies.txt
 ```
 
+## Database Structure
+
+All user accounts are stored in a MongoDB collection named `users`. A typical document resembles the following example:
+
+```json
+{
+  "_id": "64c123456789abcdef012345",
+  "username": "sample",
+  "email": "sample@example.com",
+  "authentication": {
+    "password": "<hashed-password>",
+    "salt": "<salt>",
+    "sessionToken": null
+  }
+}
+```
+
+When a user document is converted to JSON for API responses, the schema removes the fields inside `authentication`, ensuring sensitive information is not exposed.
+
 ## HTTPS Support
 
 The application can optionally serve on an HTTPS port using your own certificate. Add `HTTPS_KEY` and `HTTPS_CERT` variables to your `.env` file. When both variables are present HTTPS is enabled on port 8443 by default.
