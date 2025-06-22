@@ -140,6 +140,8 @@ curl -X PATCH http://localhost:3000/users/<USER_ID> \
 
 `DELETE /users/:id`
 
+Yalnızca oturum açan kendi kullanıcısını silebilir.
+
 ```bash
 curl -X DELETE http://localhost:3000/users/<USER_ID> -b cookies.txt
 ```
