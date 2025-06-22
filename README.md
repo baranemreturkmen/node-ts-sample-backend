@@ -172,8 +172,7 @@ npm test
 
 ## TODO
 
-- Add an admin role so that certain users can delete, update or ban others.
-- Prevent locked users from logging in.
+- Add an admin role so that certain users can delete, update or ban others. Prevent locked users from logging in.
 - Improve error handling and logging.
 - Provide more detailed security settings for production.
 
