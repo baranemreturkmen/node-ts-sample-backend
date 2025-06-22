@@ -67,6 +67,9 @@ docker run -p 3000:3000 --env-file .env node-ts-backend
 
 ## API Endpoints
 
+![PostmanApiNodeTs](https://github.com/user-attachments/assets/80777190-72ce-4866-b83b-f8c2939970a7)
+
+
 ### Register
 
 `POST /auth/register`
